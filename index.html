@@ -67,36 +67,45 @@
         <div class="container">
             <h2 class="section-title">Nossas Categorias</h2>
             <div class="category-grid">
-                <div class="category-card">
+                <a href="#skincare" class="category-card" data-category="skincare">
                     <div class="category-icon">🧴</div>
                     <h3>Skincare</h3>
                     <p>Cuidados diários para sua pele</p>
-                </div>
-                <div class="category-card">
+                </a>
+                <a href="#maquiagem" class="category-card" data-category="maquiagem">
                     <div class="category-icon">💄</div>
                     <h3>Maquiagem</h3>
                     <p>Destaque sua beleza</p>
-                </div>
-                <div class="category-card">
+                </a>
+                <a href="#cabelos" class="category-card" data-category="cabelos">
                     <div class="category-icon">💇‍♀️</div>
                     <h3>Cabelos</h3>
                     <p>Tratamentos especiais</p>
-                </div>
-                <div class="category-card">
+                </a>
+                <a href="#acessorios" class="category-card" data-category="acessorios">
                     <div class="category-icon">👛</div>
                     <h3>Acessórios</h3>
                     <p>Itens essenciais</p>
-                </div>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Featured Products -->
-    <section class="featured-products">
+    <!-- Products Section with Search -->
+    <section class="products-section" id="produtos">
         <div class="container">
-            <h2 class="section-title">Destaques</h2>
+            <div class="search-container">
+                <input type="text" 
+                       id="searchInput" 
+                       class="search-input" 
+                       placeholder="Pesquisar produtos..."
+                       aria-label="Pesquisar produtos">
+            </div>
             <div class="product-grid" id="featured-products">
-                <!-- Products will be loaded via JavaScript -->
+                <!-- Products will be loaded here -->
+            </div>
+            <div class="empty-state" style="display: none;">
+                <p>Nenhum produto encontrado. Tente outros termos de busca.</p>
             </div>
         </div>
     </section>

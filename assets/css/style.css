@@ -428,13 +428,99 @@ a:hover {
 }
 
 .category-card {
+    display: block;
     background: white;
     border-radius: var(--border-radius-lg);
     padding: 2rem;
     text-align: center;
-    transition: var(--transition);
+    transition: all 0.3s ease;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--purple-100);
+    text-decoration: none;
+    color: inherit;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+}
+
+/* Search Styles */
+.search-container {
+    margin: 2rem 0 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    border: 2px solid var(--purple-200);
+    border-radius: var(--border-radius-lg);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(147, 112, 219, 0.2);
+}
+
+/* Active State */
+.category-card.active,
+.category-card[data-category].active {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color)) !important;
+    color: white !important;
+}
+
+.category-card.active h3,
+.category-card.active p,
+.category-card[data-category].active h3,
+.category-card[data-category].active p {
+    color: white !important;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--gray-500);
+    font-size: 1.1rem;
+    grid-column: 1 / -1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .search-container {
+        margin: 1.5rem 0 2rem;
+        padding: 0 1rem;
+    }
+    
+    .category-card {
+        padding: 1.5rem 1rem;
+    }
+}
+
+.active-category {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color)) !important;
+    color: white !important;
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid transparent !important;
+}
+
+.active-category h3,
+.active-category p {
+    color: white !important;
+}
+
+/* Garante que a grade de produtos tenha uma altura mínima para evitar saltos no layout */
+.product-grid {
+    min-height: 300px;
 }
 
 .category-card:hover {

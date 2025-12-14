@@ -5,13 +5,178 @@
  * Foi desenvolvido seguindo boas práticas de JavaScript puro, sem dependências externas.
  */
 
+// Variável global para armazenar os produtos
+let allProducts = [];
+let currentCategory = 'all';
+let currentSearchTerm = '';
+
+// Mapeamento de categorias para URLs
+const categoryMap = {
+    'skincare': 'skincare',
+    'maquiagem': 'maquiagem',
+    'cabelos': 'cabelos',
+    'acessorios': 'acessorios'
+};
+
+// Carrega todos os produtos
+async function loadProducts() {
+    try {
+        const response = await fetch('./data/products.json');
+        if (!response.ok) throw new Error('Erro ao carregar produtos');
+        allProducts = await response.json();
+        return allProducts;
+    } catch (error) {
+        console.error('Erro ao carregar produtos:', error);
+        showNotification('Não foi possível carregar os produtos');
+        return [];
+    }
+}
+
+// Filtra produtos por categoria e termo de busca
+function filterProducts(category = 'all', searchTerm = '') {
+    let filtered = [...allProducts];
+    
+    // Filtra por categoria
+    if (category && category !== 'all') {
+        filtered = filtered.filter(product => 
+            product.category === category || 
+            (categoryMap[product.category] === category)
+        );
+    }
+    
+    // Filtra por termo de busca
+    if (searchTerm) {
+        const term = searchTerm.toLowerCase().trim();
+        filtered = filtered.filter(product => 
+            product.name.toLowerCase().includes(term) ||
+            (product.description && product.description.toLowerCase().includes(term))
+        );
+    }
+    
+    return filtered;
+}
+
+// Atualiza a URL sem recarregar a página
+function updateURL(category) {
+    let newURL = '#';
+    if (category && category !== 'all') {
+        newURL = `#${category}`;
+    }
+    if (currentSearchTerm) {
+        newURL += `?search=${encodeURIComponent(currentSearchTerm)}`;
+    }
+    window.history.pushState({}, '', newURL);
+}
+
+// Processa a hash da URL e parâmetros de busca
+function processHash() {
+    const hash = window.location.hash.substring(1) || 'all';
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchTerm = urlParams.get('search') || '';
+    
+    // Atualiza o campo de busca
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.value = searchTerm;
+    }
+    
+    // Atualiza as variáveis globais
+    currentCategory = hash;
+    currentSearchTerm = searchTerm;
+    
+    // Atualiza a classe ativa no menu
+    document.querySelectorAll('.category-card, .menu-link').forEach(item => {
+        const itemCategory = item.dataset.category || 'all';
+        const isActive = (hash === 'all' && itemCategory === 'all') || 
+                        (hash === itemCategory || hash === categoryMap[itemCategory]);
+        
+        item.classList.toggle('active', isActive);
+        
+        // Atualiza o link para incluir o termo de busca
+        if (isActive && item.href) {
+            const baseUrl = hash === 'all' ? '#' : `#${hash}`;
+            item.href = searchTerm ? `${baseUrl}?search=${encodeURIComponent(searchTerm)}` : baseUrl;
+        }
+    });
+    
+    // Filtra e renderiza os produtos
+    const filteredProducts = filterProducts(hash, searchTerm);
+    renderFeaturedProducts(filteredProducts);
+    
+    // Mostra mensagem se não houver resultados
+    const emptyState = document.querySelector('.empty-state');
+    if (emptyState) {
+        emptyState.style.display = filteredProducts.length ? 'none' : 'block';
+    }
+}
+
+// Configura os filtros de categoria e pesquisa
+async function setupFilters() {
+    // Carrega os produtos
+    await loadProducts();
+    
+    // Configura os cliques nas categorias
+    document.addEventListener('click', (e) => {
+        const categoryCard = e.target.closest('.category-card, .menu-link');
+        if (categoryCard) {
+            e.preventDefault();
+            const category = categoryCard.dataset.category || 'all';
+            currentCategory = category;
+            updateURL(category);
+            processHash();
+        }
+    });
+    
+    // Configura a busca em tempo real
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        let searchTimeout;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                currentSearchTerm = e.target.value.trim();
+                updateURL(currentCategory);
+                processHash();
+            }, 300);
+        });
+        
+        // Permite busca ao pressionar Enter
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                currentSearchTerm = e.target.value.trim();
+                updateURL(currentCategory);
+                processHash();
+            }
+        });
+    }
+    
+    // Processa a URL inicial
+    if (window.location.hash || window.location.search) {
+        processHash();
+    } else {
+        // Se não houver hash ou busca, mostra todos os produtos em destaque
+        const featuredProducts = allProducts.filter(p => p.featured);
+        renderFeaturedProducts(featuredProducts);
+    }
+    
+    // Atualiza quando a URL mudar
+    window.addEventListener('popstate', processHash);
+    
+    // Adiciona um listener para o evento de carregamento da página
+    window.addEventListener('load', () => {
+        // Força a atualização da exibição após o carregamento completo
+        setTimeout(processHash, 100);
+    });
+}
+
 // Inicialização quando o DOM estiver completamente carregado
 document.addEventListener('DOMContentLoaded', function() {
     initMobileMenu();
-    fetchFeaturedProducts();
     setupSmoothScrolling();
     setupAnimations();
     setupCartInteractions();
+    setupFilters(); // Substitui o setupCategoryFilters
 });
 
 /**
