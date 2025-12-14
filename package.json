@@ -1,0 +1,16 @@
+{
+  "name": "absoluta-store",
+  "version": "1.0.0",
+  "description": "Absoluta Store - Loja de Beleza e Cuidado Pessoal",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "mercadopago": "^1.5.14",
+    "netlify-lambda": "^2.0.15"
+  },
+  "devDependencies": {
+    "netlify-cli": "^12.13.0"
+  }
+}

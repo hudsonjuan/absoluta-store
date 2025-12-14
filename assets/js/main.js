@@ -241,7 +241,7 @@ function updateCartCount() {
 /**
  * Processa o checkout redirecionando para o Mercado Pago
  */
-function processCheckout() {
+async function processCheckout() {
     const cart = getCart();
     
     if (cart.length === 0) {
@@ -249,31 +249,58 @@ function processCheckout() {
         return;
     }
     
-    // Formata os itens para o formato esperado pelo Mercado Pago
-    const items = cart.map(item => ({
-        id: item.id,
-        title: item.name,
-        quantity: item.quantity,
-        unit_price: item.price,
-        picture_url: item.image || 'https://via.placeholder.com/150',
-        description: `Produto: ${item.name}`,
-        category_id: 'beauty'
-    }));
+    // Mostrar loading
+    const checkoutBtn = document.querySelector('.checkout-btn');
+    const originalBtnText = checkoutBtn ? checkoutBtn.innerHTML : '';
+    if (checkoutBtn) {
+        checkoutBtn.disabled = true;
+        checkoutBtn.innerHTML = '<div class="spinner"></div> Processando...';
+    }
     
-    // Calcula o total do pedido
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    
-    // Cria um identificador único para o pedido
-    const externalReference = `absoluta-${Date.now()}`;
-    
-    // URL do Mercado Pago fornecida
-    const mercadoPagoUrl = 'https://link.mercadopago.com.br/abkk';
-    
-    // Redireciona para o checkout do Mercado Pago
-    window.open(mercadoPagoUrl, '_blank');
-    
-    // Mantém o carrinho aberto para o caso de o usuário voltar
-    // Você pode adicionar lógica adicional aqui, como limpar o carrinho após a compra
+    try {
+        // Formata os itens para o formato esperado pelo Mercado Pago
+        const items = cart.map(item => ({
+            id: item.id,
+            title: item.name,
+            quantity: item.quantity,
+            unit_price: item.price,
+            picture_url: item.image || 'https://via.placeholder.com/150',
+            description: `Produto: ${item.name}`,
+            category_id: 'beauty'
+        }));
+        
+        // Calcula o total do pedido
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        
+        // Chama a Netlify Function para criar a preferência de pagamento
+        const response = await fetch('/.netlify/functions/create-preference', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ items, total })
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Erro ao processar o pagamento');
+        }
+        
+        const data = await response.json();
+        
+        // Redireciona para o checkout do Mercado Pago
+        window.location.href = data.url;
+        
+    } catch (error) {
+        console.error('Erro no checkout:', error);
+        showNotification(`Erro ao processar o pagamento: ${error.message}`);
+        
+        // Restaura o botão de checkout
+        if (checkoutBtn) {
+            checkoutBtn.disabled = false;
+            checkoutBtn.innerHTML = originalBtnText;
+        }
+    }
 }
 
 /**

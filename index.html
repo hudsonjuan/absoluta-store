@@ -6,6 +6,7 @@
     <title>Absoluta Store - Beleza e Cuidado Pessoal</title>
     <meta name="description" content="Loja online especializada em produtos de beleza, skincare, maquiagem e acessórios.">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/checkout.css">
 </head>
 <body>
     <!-- Header -->
@@ -141,6 +142,22 @@
                 <p>Seu carrinho está vazio</p>
                 <a href="#produtos" class="btn">Ver Produtos</a>
             </div>
+            <!-- Cart items will be dynamically inserted here by JavaScript -->
+        </div>
+        <div class="cart-footer" style="display: none;">
+            <div class="cart-total">
+                <span>Total:</span>
+                <strong>R$ 0,00</strong>
+            </div>
+            <button class="btn btn-checkout" onclick="processCheckout()">
+                Finalizar Compra
+            </button>
+            <p class="secure-checkout">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                Checkout seguro com Mercado Pago
+            </p>
         </div>
     </div>
 
