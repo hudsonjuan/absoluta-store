@@ -32,7 +32,14 @@
                 <ul>
                     <li><a href="#inicio" class="active">Início</a></li>
                     <li><a href="#produtos">Produtos</a></li>
-                    <li><a href="#carrinho" class="cart-icon">Carrinho <span class="cart-count">0</span></a></li>
+                    <li><a href="#" class="cart-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span class="cart-count">0</span>
+                    </a></li>
                 </ul>
             </nav>
             <button class="mobile-menu-toggle" aria-label="Menu">
@@ -121,6 +128,21 @@
             </div>
         </div>
     </footer>
+
+    <!-- Carrinho de Compras -->
+    <div class="cart-overlay"></div>
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Meu Carrinho</h3>
+            <button class="close-cart" aria-label="Fechar carrinho">&times;</button>
+        </div>
+        <div class="cart-container">
+            <div class="cart-empty">
+                <p>Seu carrinho está vazio</p>
+                <a href="#produtos" class="btn">Ver Produtos</a>
+            </div>
+        </div>
+    </div>
 
     <script src="assets/js/main.js"></script>
 </body>

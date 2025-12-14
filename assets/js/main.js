@@ -5,12 +5,13 @@
  * Foi desenvolvido seguindo boas práticas de JavaScript puro, sem dependências externas.
  */
 
+// Inicialização quando o DOM estiver completamente carregado
 document.addEventListener('DOMContentLoaded', function() {
-    // Inicialização dos componentes
     initMobileMenu();
-    loadFeaturedProducts();
+    fetchFeaturedProducts();
     setupSmoothScrolling();
     setupAnimations();
+    setupCartInteractions();
 });
 
 /**
@@ -24,8 +25,6 @@ function initMobileMenu() {
         menuToggle.addEventListener('click', function() {
             this.classList.toggle('active');
             nav.classList.toggle('active');
-            
-            // Impede o scroll do body quando o menu está aberto
             document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
         });
         
@@ -42,99 +41,71 @@ function initMobileMenu() {
 }
 
 /**
- * Carrega os produtos em destaque
+ * Busca os produtos em destaque do arquivo JSON
  */
-function loadFeaturedProducts() {
-    const productsContainer = document.getElementById('featured-products');
-    
-    if (!productsContainer) return;
-    
-    // Dados mockados dos produtos (será substituído por uma chamada à API no futuro)
-    const featuredProducts = [
-        {
-            id: 1,
-            name: 'Creme Facial Hidratante',
-            category: 'skincare',
-            price: 89.90,
-            image: 'https://via.placeholder.com/300x300/f3e5f5/8a4fff?text=Creme+Facial',
-            rating: 4.8,
-            badge: 'Mais Vendido'
-        },
-        {
-            id: 2,
-            name: 'Paleta de Sombras',
-            category: 'maquiagem',
-            price: 129.90,
-            image: 'https://via.placeholder.com/300x300/f3e5f5/8a4fff?text=Paleta+Sombras',
-            rating: 4.9,
-            badge: 'Novidade'
-        },
-        {
-            id: 3,
-            name: 'Shampoo Revitalizante',
-            category: 'cabelos',
-            price: 59.90,
-            image: 'https://via.placeholder.com/300x300/f3e5f5/8a4fff?text=Shampoo',
-            rating: 4.7
-        },
-        {
-            id: 4,
-            name: 'Kit Pincéis Profissionais',
-            category: 'acessorios',
-            price: 149.90,
-            image: 'https://via.placeholder.com/300x300/f3e5f5/8a4fff?text=Kit+Pinceis',
-            rating: 4.9,
-            badge: 'Oferta'
+async function fetchFeaturedProducts() {
+    try {
+        const response = await fetch('./data/products.json');
+        if (!response.ok) {
+            throw new Error('Erro ao carregar produtos');
         }
-    ];
-    
-    // Limpa o conteúdo atual
-    productsContainer.innerHTML = '';
-    
-    // Adiciona cada produto ao DOM
-    featuredProducts.forEach((product, index) => {
-        const productElement = createProductElement(product, index);
-        productsContainer.appendChild(productElement);
+        const products = await response.json();
+        const featured = products.filter(product => product.featured === true);
+        renderFeaturedProducts(featured);
+    } catch (error) {
+        console.error('Erro ao carregar produtos:', error);
+        const container = document.getElementById('featured-products');
+        if (container) {
+            container.innerHTML = '<p class="error-message">Não foi possível carregar os produtos. Tente novamente mais tarde.</p>';
+        }
+    }
+}
+
+/**
+ * Renderiza os produtos em destaque na página
+ * @param {Array} products - Lista de produtos em destaque
+ */
+function renderFeaturedProducts(products) {
+    const container = document.getElementById('featured-products');
+    if (!container) return;
+
+    container.innerHTML = '';
+    products.forEach((product, index) => {
+        const productElement = createProductCard(product, index);
+        container.appendChild(productElement);
     });
-    
-    // Inicializa os tooltips dos botões (será implementado posteriormente)
-    initProductTooltips();
 }
 
 /**
  * Cria o elemento HTML para um produto
  * @param {Object} product - Dados do produto
- * @param {number} index - Índice do produto para animação
+ * @param {number} index - Índice para animação
  * @returns {HTMLElement} Elemento do produto
  */
-function createProductElement(product, index) {
+function createProductCard(product, index) {
     const productElement = document.createElement('div');
-    productElement.className = 'product-card fade-in';
+    productElement.className = 'product-card';
     productElement.style.animationDelay = `${index * 0.1}s`;
-    productElement.setAttribute('data-category', product.category);
     
-    // Formata o preço para o formato brasileiro
     const formattedPrice = product.price.toLocaleString('pt-BR', {
         style: 'currency',
         currency: 'BRL'
     });
     
-    // Cria o HTML do produto
     productElement.innerHTML = `
-        <div class="product-image" style="background-image: url('${product.image}')">
-            ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+        <div class="product-image">
+            <img src="${product.image || 'assets/images/product-placeholder.png'}" alt="${product.name}">
         </div>
-        <div class="product-info">
-            <span class="product-category">${formatCategory(product.category)}</span>
+        <div class="product-details">
             <h3 class="product-title">${product.name}</h3>
-            <div class="product-rating">
-                ${createStarRating(product.rating)}
-                <span>(${product.rating})</span>
+            <p class="product-category">${formatCategory(product.category)}</p>
+            <p class="product-description">${product.description || ''}</p>
+            <div class="product-footer">
+                <span class="product-price">${formattedPrice}</span>
+                <button class="add-to-cart" data-product-id="${product.id}">
+                    Adicionar ao Carrinho
+                </button>
             </div>
-            <div class="product-price">${formattedPrice}</div>
-            <button class="add-to-cart" data-product-id="${product.id}" aria-label="Adicionar ao carrinho">
-                <span>Adicionar ao Carrinho</span>
-            </button>
         </div>
     `;
     
@@ -151,40 +122,10 @@ function formatCategory(category) {
         'skincare': 'Skincare',
         'maquiagem': 'Maquiagem',
         'cabelos': 'Cabelos',
+        'cabelo': 'Cabelos',
         'acessorios': 'Acessórios'
     };
-    
     return categories[category] || category;
-}
-
-/**
- * Cria a avaliação em estrelas
- * @param {number} rating - Avaliação de 0 a 5
- * @returns {string} HTML das estrelas
- */
-function createStarRating(rating) {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-    
-    let starsHTML = '';
-    
-    // Estrelas cheias
-    for (let i = 0; i < fullStars; i++) {
-        starsHTML += '★';
-    }
-    
-    // Meia estrela
-    if (hasHalfStar) {
-        starsHTML += '½';
-    }
-    
-    // Estrelas vazias
-    for (let i = 0; i < emptyStars; i++) {
-        starsHTML += '☆';
-    }
-    
-    return starsHTML;
 }
 
 /**
@@ -194,17 +135,9 @@ function setupSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const targetId = this.getAttribute('href');
-            
-            // Verifica se é um link âncora
             if (targetId !== '#' && document.querySelector(targetId)) {
                 e.preventDefault();
-                
-                const targetElement = document.querySelector(targetId);
-                const headerHeight = document.querySelector('.header').offsetHeight;
-                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
+                document.querySelector(targetId).scrollIntoView({
                     behavior: 'smooth'
                 });
             }
@@ -213,100 +146,312 @@ function setupSmoothScrolling() {
 }
 
 /**
- * Configura as animações de entrada dos elementos
+ * Configura as animações de entrada
  */
 function setupAnimations() {
-    const animateOnScroll = () => {
-        const elements = document.querySelectorAll('.fade-in:not(.animated)');
-        
-        elements.forEach(element => {
-            const elementTop = element.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
-            
-            if (elementTop < windowHeight - 100) {
-                element.classList.add('animated');
-            }
-        });
-    };
-    
-    // Executa uma vez ao carregar a página
-    animateOnScroll();
-    
-    // Executa ao rolar a página
-    window.addEventListener('scroll', animateOnScroll);
-}
-
-/**
- * Inicializa os tooltips dos botões (será implementado posteriormente)
- */
-function initProductTooltips() {
-    // Implementação futura de tooltips para os botões
-}
-
-/**
- * Função para adicionar um produto ao carrinho (será implementada posteriormente)
- * @param {number} productId - ID do produto
- */
-function addToCart(productId) {
-    // Implementação futura do carrinho
-    console.log(`Produto adicionado ao carrinho: ${productId}`);
-    
-    // Atualiza o contador do carrinho
-    const cartCount = document.querySelector('.cart-count');
-    if (cartCount) {
-        let count = parseInt(cartCount.textContent) || 0;
-        cartCount.textContent = count + 1;
-        cartCount.classList.add('pulse');
-        
-        // Remove a classe de animação após a conclusão
-        setTimeout(() => {
-            cartCount.classList.remove('pulse');
-        }, 300);
-    }
-}
-
-// Adiciona o event listener para os botões de adicionar ao carrinho
-document.addEventListener('click', function(e) {
-    const addToCartBtn = e.target.closest('.add-to-cart');
-    
-    if (addToCartBtn) {
-        e.preventDefault();
-        const productId = addToCartBtn.getAttribute('data-product-id');
-        if (productId) {
-            addToCart(parseInt(productId));
-            
-            // Feedback visual
-            addToCartBtn.textContent = 'Adicionado!';
-            addToCartBtn.style.backgroundColor = '#4CAF50';
-            
-            // Reseta o botão após 1.5 segundos
-            setTimeout(() => {
-                addToCartBtn.innerHTML = '<span>Adicionar ao Carrinho</span>';
-                addToCartBtn.style.backgroundColor = '';
-            }, 1500);
-        }
-    }
-});
-
-// Adiciona suporte para o Intersection Observer para melhor desempenho nas animações
-if ('IntersectionObserver' in window) {
+    const animateElements = document.querySelectorAll('.fade-in');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('animated');
+                entry.target.classList.add('animate');
+                observer.unobserve(entry.target);
             }
         });
     }, {
         threshold: 0.1
     });
-    
-    document.querySelectorAll('.fade-in').forEach(element => {
-        observer.observe(element);
-    });
+
+    animateElements.forEach(element => observer.observe(element));
 }
 
-// Exporta funções para uso global (se necessário)
-window.AbsolutaStore = {
-    addToCart,
-    loadFeaturedProducts
-};
+/**
+ * Obtém o carrinho do localStorage
+ * @returns {Array} Lista de itens no carrinho
+ */
+function getCart() {
+    const cart = localStorage.getItem('absoluta_cart');
+    return cart ? JSON.parse(cart) : [];
+}
+
+/**
+ * Salva o carrinho no localStorage
+ * @param {Array} cart - Lista de itens no carrinho
+ */
+function saveCart(cart) {
+    localStorage.setItem('absoluta_cart', JSON.stringify(cart));
+    updateCartCount();
+}
+
+/**
+ * Adiciona um produto ao carrinho
+ * @param {Object} product - Produto a ser adicionado
+ */
+function addToCart(product) {
+    const cart = getCart();
+    const existingItem = cart.find(item => item.id === product.id);
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            quantity: 1
+        });
+    }
+    
+    saveCart(cart);
+    showNotification('Produto adicionado ao carrinho');
+}
+
+/**
+ * Remove um item do carrinho
+ * @param {number} productId - ID do produto a ser removido
+ */
+function removeFromCart(productId) {
+    const cart = getCart().filter(item => item.id !== productId);
+    saveCart(cart);
+    renderCart();
+}
+
+/**
+ * Calcula o total do carrinho
+ * @returns {number} Valor total do carrinho
+ */
+function getCartTotal() {
+    const cart = getCart();
+    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+}
+
+/**
+ * Atualiza o contador de itens no carrinho
+ */
+function updateCartCount() {
+    const cart = getCart();
+    const totalItems = cart.reduce((count, item) => count + item.quantity, 0);
+    const cartCount = document.querySelector('.cart-count');
+    if (cartCount) {
+        cartCount.textContent = totalItems;
+        cartCount.style.display = totalItems > 0 ? 'inline-block' : 'none';
+    }
+}
+
+/**
+ * Processa o checkout redirecionando para o Mercado Pago
+ */
+function processCheckout() {
+    const cart = getCart();
+    
+    if (cart.length === 0) {
+        showNotification('Adicione itens ao carrinho antes de finalizar');
+        return;
+    }
+    
+    // Formata os itens para o formato esperado pelo Mercado Pago
+    const items = cart.map(item => ({
+        id: item.id,
+        title: item.name,
+        quantity: item.quantity,
+        unit_price: item.price,
+        picture_url: item.image || 'https://via.placeholder.com/150',
+        description: `Produto: ${item.name}`,
+        category_id: 'beauty'
+    }));
+    
+    // Calcula o total do pedido
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    // Cria um identificador único para o pedido
+    const externalReference = `absoluta-${Date.now()}`;
+    
+    // URL do Mercado Pago fornecida
+    const mercadoPagoUrl = 'https://link.mercadopago.com.br/abkk';
+    
+    // Redireciona para o checkout do Mercado Pago
+    window.open(mercadoPagoUrl, '_blank');
+    
+    // Mantém o carrinho aberto para o caso de o usuário voltar
+    // Você pode adicionar lógica adicional aqui, como limpar o carrinho após a compra
+}
+
+/**
+ * Exibe uma notificação
+ * @param {string} message - Mensagem a ser exibida
+ */
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+/**
+ * Renderiza o carrinho
+ */
+function renderCart() {
+    const cart = getCart();
+    const cartContainer = document.querySelector('.cart-container');
+    if (!cartContainer) return;
+    
+    if (cart.length === 0) {
+        cartContainer.innerHTML = `
+            <div class="cart-empty">
+                <p>Seu carrinho está vazio</p>
+                <a href="#produtos" class="btn">Ver Produtos</a>
+            </div>
+        `;
+        return;
+    }
+    
+    const total = getCartTotal();
+    const formattedTotal = total.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    });
+    
+    cartContainer.innerHTML = `
+        <div class="cart-items">
+            ${cart.map(item => {
+                const itemTotal = (item.price * item.quantity).toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                });
+                return `
+                    <div class="cart-item" data-id="${item.id}">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                        <div class="cart-item-details">
+                            <h4>${item.name}</h4>
+                            <div class="cart-item-price">
+                                ${item.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} × 
+                                <button class="quantity-btn" data-action="decrease" data-id="${item.id}">-</button>
+                                <span class="quantity">${item.quantity}</span>
+                                <button class="quantity-btn" data-action="increase" data-id="${item.id}">+</button>
+                            </div>
+                        </div>
+                        <button class="remove-item" data-id="${item.id}">&times;</button>
+                    </div>
+                `;
+            }).join('')}
+        </div>
+        <div class="cart-total">
+            <span>Total:</span>
+            <strong>${formattedTotal}</strong>
+        </div>
+        <button class="btn btn-checkout">Finalizar Compra</button>
+    `;
+    
+    // Adiciona os event listeners para os botões do carrinho
+    cartContainer.querySelectorAll('.remove-item').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const productId = parseInt(btn.dataset.id);
+            removeFromCart(productId);
+        });
+    });
+    
+    cartContainer.querySelectorAll('.quantity-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const action = btn.dataset.action;
+            const productId = parseInt(btn.dataset.id);
+            updateCartItemQuantity(productId, action === 'increase' ? 1 : -1);
+        });
+    });
+    
+    // Configura o botão de finalizar compra
+    const checkoutBtn = cartContainer.querySelector('.btn-checkout');
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', processCheckout);
+    }
+}
+
+/**
+ * Atualiza a quantidade de um item no carrinho
+ * @param {number} productId - ID do produto
+ * @param {number} change - Quantidade a ser adicionada (pode ser negativa)
+ */
+function updateCartItemQuantity(productId, change) {
+    const cart = getCart();
+    const item = cart.find(item => item.id === productId);
+    
+    if (item) {
+        item.quantity += change;
+        
+        if (item.quantity <= 0) {
+            removeFromCart(productId);
+        } else {
+            saveCart(cart);
+            renderCart();
+        }
+    }
+}
+
+/**
+ * Configura as interações do carrinho
+ */
+function setupCartInteractions() {
+    // Adicionar ao carrinho
+    document.addEventListener('click', (e) => {
+        const addToCartBtn = e.target.closest('.add-to-cart');
+        if (addToCartBtn) {
+            const productCard = addToCartBtn.closest('.product-card');
+            if (productCard) {
+                const product = {
+                    id: parseInt(addToCartBtn.dataset.productId),
+                    name: productCard.querySelector('.product-title')?.textContent || 'Produto',
+                    price: parseFloat(
+                        productCard.querySelector('.product-price')?.textContent
+                            .replace(/[^0-9,]/g, '')
+                            .replace(',', '.') || 0
+                    ),
+                    image: productCard.querySelector('.product-image img')?.src || ''
+                };
+                addToCart(product);
+            }
+        }
+        
+        // Abrir/fechar carrinho
+        const cartIcon = e.target.closest('.cart-icon, .cart-icon *');
+        if (cartIcon) {
+            e.preventDefault();
+            const isOpening = !document.body.classList.contains('cart-open');
+            document.body.classList.toggle('cart-open');
+            if (isOpening) {
+                renderCart();
+            }
+        }
+        
+        // Fechar carrinho ao clicar fora
+        if (e.target.classList.contains('cart-overlay')) {
+            document.body.classList.remove('cart-open');
+        }
+    });
+    
+    // Fechar carrinho ao clicar no botão de fechar
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('close-cart')) {
+            document.body.classList.remove('cart-open');
+        }
+    });
+    
+    // Configurar botão de finalizar compra
+    document.addEventListener('click', (e) => {
+        const checkoutBtn = e.target.closest('.btn-checkout');
+        if (checkoutBtn) {
+            e.preventDefault();
+            processCheckout();
+        }
+    });
+    
+    // Inicializar contador do carrinho
+    updateCartCount();
+}
