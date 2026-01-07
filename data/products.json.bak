@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "Creme Facial Hidratante com Ácido Hialurônico",
+    "description": "Hidratação intensiva 24h para pele seca. Com ácido hialurônico e vitamina E para uma pele macia e radiante.",
+    "price": 129.90,
+    "category": "skincare",
+    "image": "assets/images/product-placeholder.png",
+    "featured": true,
+    "rating": 4.8
+  },
+  {
+    "id": 2,
+    "name": "Paleta de Sombras Profissional",
+    "description": "Paleta com 12 cores altamente pigmentadas, acabamento matte e metalizado. Inclui espelho e pincel duplo.",
+    "price": 159.90,
+    "category": "maquiagem",
+    "image": "assets/images/product-placeholder.png",
+    "featured": true,
+    "rating": 4.9
+  },
+  {
+    "id": 3,
+    "name": "Shampoo Revitalizante para Cacheados",
+    "description": "Fórmula sem sulfato que limpa suavemente, reduz o frizz e define os cachos. Enriquecido com óleo de argan.",
+    "price": 89.90,
+    "category": "cabelos",
+    "image": "assets/images/product-placeholder.png",
+    "featured": true,
+    "rating": 4.7
+  },
+  {
+    "id": 4,
+    "name": "Kit Pincéis Profissionais",
+    "description": "Kit com 8 pincéis de maquiagem profissionais em pelos naturais e sintéticos. Inclui estojo de couro ecológico.",
+    "price": 199.90,
+    "category": "acessorios",
+    "image": "assets/images/product-placeholder.png",
+    "featured": true,
+    "rating": 5.0
+  },
+  {
+    "id": 5,
+    "name": "Água Micelar 3 em 1",
+    "description": "Remove maquiagem, limpa e tonifica a pele em um único gesto. Ideal para todos os tipos de pele, incluindo as sensíveis.",
+    "price": 69.90,
+    "category": "skincare",
+    "image": "assets/images/product-placeholder.png",
+    "featured": false,
+    "rating": 4.6
+  },
+  {
+    "id": 6,
+    "name": "Batom Líquido Matte",
+    "description": "Batom líquido de longa duração com acabamento mate. Disponível em 8 cores vibrantes. Não resseca os lábios.",
+    "price": 59.90,
+    "category": "maquiagem",
+    "image": "assets/images/product-placeholder.png",
+    "featured": true,
+    "rating": 4.8
+  }
+]

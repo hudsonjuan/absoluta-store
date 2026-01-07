@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produto - Absoluta Store</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/product.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" alt="Absoluta Store">
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="menu-link" data-category="all">Início</a></li>
+                    <li><a href="index.html#produtos" class="menu-link" data-category="all">Produtos</a></li>
+                    <li><a href="index.html#categorias" class="menu-link" data-category="all">Categorias</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Buscar produtos...">
+                    <button id="searchButton"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="product-page">
+        <div class="breadcrumb">
+            <a href="index.html">Início</a> / 
+            <a href="#" id="categoryBreadcrumb">Categoria</a> / 
+            <span id="productBreadcrumb">Produto</span>
+        </div>
+
+        <div class="product-container">
+            <div class="product-gallery">
+                <div class="main-image-container">
+                    <img id="mainProductImage" src="" alt="Imagem do produto" class="main-image">
+                    <div class="product-badge" id="productBadge">
+                        <span class="rating">
+                            <i class="fas fa-star"></i>
+                            <span id="productRating">0.0</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="thumbnail-container" id="thumbnailContainer">
+                    <!-- Thumbnails will be added here by JavaScript -->
+                </div>
+            </div>
+
+            <div class="product-details">
+                <h1 id="productTitle">Carregando...</h1>
+                <div class="product-meta">
+                    <span class="product-sku">SKU: <span id="productSku">-</span></span>
+                    <span class="product-availability">Disponível em estoque</span>
+                </div>
+                
+                <div class="product-price-container">
+                    <span class="price" id="productPrice">R$ 0,00</span>
+                    <span class="installments" id="productInstallments">ou 12x de R$ 0,00 sem juros</span>
+                </div>
+
+                <div class="product-description">
+                    <p id="productShortDescription"></p>
+                </div>
+
+                <div class="product-variants" id="colorVariants">
+                    <!-- Color variants will be added here by JavaScript if available -->
+                </div>
+
+                <div class="product-actions">
+                    <div class="quantity-selector">
+                        <button class="quantity-btn" id="decreaseQty">-</button>
+                        <input type="number" id="productQty" value="1" min="1" max="99">
+                        <button class="quantity-btn" id="increaseQty">+</button>
+                    </div>
+                    <button class="add-to-cart-btn" id="addToCartBtn">
+                        <i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho
+                    </button>
+                    <button class="buy-now-btn" id="buyNowBtn">
+                        Comprar Agora
+                    </button>
+                </div>
+
+                <div class="product-share">
+                    <span>Compartilhar:</span>
+                    <a href="#" class="social-share" data-network="facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-share" data-network="twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-share" data-network="pinterest"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" class="social-share" data-network="whatsapp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-tabs">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="description">Descrição</button>
+                <button class="tab-btn" data-tab="ingredients">Ingredientes</button>
+                <button class="tab-btn" data-tab="how-to-use">Como Usar</button>
+                <button class="tab-btn" data-tab="reviews">Avaliações</button>
+            </div>
+            <div class="tabs-content">
+                <div class="tab-pane active" id="descriptionTab">
+                    <h3>Descrição do Produto</h3>
+                    <p id="productLongDescription"></p>
+                    <div class="product-benefits" id="productBenefits">
+                        <!-- Benefits will be added here by JavaScript if available -->
+                    </div>
+                </div>
+                <div class="tab-pane" id="ingredientsTab">
+                    <h3>Ingredientes</h3>
+                    <p id="productIngredients">Carregando...</p>
+                </div>
+                <div class="tab-pane" id="howToUseTab">
+                    <h3>Como Usar</h3>
+                    <p id="productHowToUse">Carregando...</p>
+                </div>
+                <div class="tab-pane" id="reviewsTab">
+                    <h3>Avaliações</h3>
+                    <div class="reviews-summary">
+                        <div class="average-rating">
+                            <span class="rating-value" id="averageRating">0.0</span>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="total-reviews" id="totalReviews">0 avaliações</span>
+                        </div>
+                        <button class="write-review-btn" id="writeReviewBtn">Escrever avaliação</button>
+                    </div>
+                    <div class="reviews-list" id="reviewsList">
+                        <p class="no-reviews">Nenhuma avaliação ainda. Seja o primeiro a avaliar!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="related-products">
+            <h2>Você também pode gostar</h2>
+            <div class="products-grid" id="relatedProducts">
+                <!-- Related products will be added here by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Seu Carrinho</h3>
+            <button class="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be added here by JavaScript -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-totals">
+                <div class="subtotal">
+                    <span>Subtotal</span>
+                    <span id="cartSubtotal">R$ 0,00</span>
+                </div>
+                <div class="shipping">
+                    <span>Frete</span>
+                    <span id="shippingCost">Calcular frete</span>
+                </div>
+                <div class="total">
+                    <span>Total</span>
+                    <span id="cartTotal">R$ 0,00</span>
+                </div>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Finalizar Compra</button>
+            <button class="continue-shopping">Continuar Comprando</button>
+        </div>
+    </div>
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <footer class="footer" id="contato">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Absoluta Store</h3>
+                <p>Sua loja de cosméticos e beleza com os melhores produtos para realçar sua beleza natural.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Links Rápidos</h3>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="#produtos">Produtos</a></li>
+                    <li><a href="#categorias">Categorias</a></li>
+                    <li><a href="#ofertas">Ofertas</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Minha Conta</h3>
+                <ul>
+                    <li><a href="#" id="myAccount">Minha Conta</a></li>
+                    <li><a href="#" id="orderHistory">Meus Pedidos</a></li>
+                    <li><a href="#" id="wishlist">Lista de Desejos</a></li>
+                    <li><a href="#" id="addressBook">Endereços</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contato</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Rua Exemplo, 123 - Centro, Cidade - SP</p>
+                <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+                <p><i class="fas fa-envelope"></i> contato@absolutastore.com.br</p>
+                <p><i class="fas fa-clock"></i> Seg-Sáb: 9h às 18h</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Absoluta Store. Todos os direitos reservados.</p>
+            <div class="payment-methods">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-amex"></i>
+                <i class="fab fa-cc-paypal"></i>
+                <i class="fab fa-barcode"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/product.js"></script>
+</body>
+</html>

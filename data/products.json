@@ -3,51 +3,133 @@
     "id": 1,
     "name": "Creme Facial Hidratante com Ácido Hialurônico",
     "description": "Hidratação intensiva 24h para pele seca. Com ácido hialurônico e vitamina E para uma pele macia e radiante.",
+    "longDescription": "O Creme Facial Hidratante com Ácido Hialurônico da Absoluta é formulado com ingredientes de alta qualidade que proporcionam hidratação profunda e duradoura. Sua textura leve e de rápida absorção é enriquecida com Ácido Hialurônico de baixo peso molecular, que penetra nas camadas mais profundas da pele, preenchendo as rugas e linhas de expressão. A Vitamina E age como poderoso antioxidante, protegendo a pele contra os danos causados pelos radicais livres. Ideal para uso diário, de manhã e à noite, em peles secas a muito secas. Livre de parabenos, óleo mineral e corantes artificiais.",
     "price": 129.90,
     "category": "skincare",
-    "image": "assets/images/product-placeholder.png",
+    "images": [
+      "assets/images/products/creme-hidratante-1.jpg",
+      "assets/images/products/creme-hidratante-2.jpg",
+      "assets/images/products/creme-hidratante-3.jpg"
+    ],
+    "image": "assets/images/products/creme-hidratante-1.jpg",
     "featured": true,
-    "rating": 4.8
+    "rating": 4.8,
+    "ingredients": "Água, Glicerina, Ácido Hialurônico, Vitamina E, Manteiga de Karité, Óleo de Semente de Uva, Aloe Vera, Ácido Lático, Ácido Cítrico, Fenoxietanol, Caprylyl Glycol",
+    "howToUse": "Aplique uma pequena quantidade do creme no rosto limpo e seco, de manhã e/ou à noite, com movimentos suaves e ascendentes. Para melhores resultados, utilize após a limpeza e antes do protetor solar.",
+    "benefits": [
+      "Hidratação intensiva por até 24h",
+      "Preenchimento de rugas e linhas finas",
+      "Pele mais firme e elástica",
+      "Proteção antioxidante",
+      "Textura leve e de rápida absorção"
+    ]
   },
   {
     "id": 2,
     "name": "Paleta de Sombras Profissional",
     "description": "Paleta com 12 cores altamente pigmentadas, acabamento matte e metalizado. Inclui espelho e pincel duplo.",
+    "longDescription": "A Paleta de Sombras Profissional Absoluta reúne 12 cores altamente pigmentadas em uma combinação perfeita de tons neutros e marcantes. Com acabamentos que variam entre matte, satinado e metalizado, esta paleta permite criar inúmeros looks, do mais natural ao mais ousado. Sua fórmula de longa duração é resistente à água e ao suor, sem marcar ou acumular nas pálpebras. Inclui um espelho grande e um pincel duplo de alta qualidade para aplicação precisa. Livre de parabenos, ftalatos e crueldade animal.",
     "price": 159.90,
     "category": "maquiagem",
-    "image": "assets/images/product-placeholder.png",
+    "images": [
+      "assets/images/products/paleta-sombras-1.jpg",
+      "assets/images/products/paleta-sombras-2.jpg",
+      "assets/images/products/paleta-sombras-3.jpg"
+    ],
+    "image": "assets/images/products/paleta-sombras-1.jpg",
     "featured": true,
-    "rating": 4.9
+    "rating": 4.9,
+    "colors": [
+      "Nude",
+      "Marrom Claro",
+      "Marrom Escuro",
+      "Preto",
+      "Dourado",
+      "Rosa"
+    ],
+    "howToUse": "Use um pincel limpo e seco para aplicar as sombras nas pálpebras. Comece com as cores mais claras como base e vá aprofundando com as mais escuras. Use o pincel esfumador para criar um efeito degradê. Para maior intensidade, umedeça o pincel antes de aplicar a sombra.",
+    "ingredients": "Talc, Mica, Zinc Stearate, Dimethicone, Octyldodecyl Stearoyl Stearate, Isostearyl Neopentanoate, Ethylhexyl Palmitate, Phenoxyethanol, Caprylyl Glycol."
   },
   {
     "id": 3,
     "name": "Shampoo Revitalizante para Cacheados",
     "description": "Fórmula sem sulfato que limpa suavemente, reduz o frizz e define os cachos. Enriquecido com óleo de argan.",
+    "longDescription": "Especialmente formulado para cabelos cacheados e crespos, o Shampoo Revitalizante Absoluta limpa suavemente sem ressecar, preservando a hidratação natural dos fios. Sua fórmula sem sulfatos remove impurezas sem agredir, enquanto o óleo de argan e a manteiga de karité nutrem e fortalecem os fios. O extrato de algas marinhas ajuda a definir os cachos e reduzir o volume excessivo. O resultado são cachos mais definidos, macios e com brilho intenso. Livre de parabenos, sulfatos, sal e parafina.",
     "price": 89.90,
     "category": "cabelos",
-    "image": "assets/images/product-placeholder.png",
+    "images": [
+      "assets/images/products/shampoo-cacheados-1.jpg",
+      "assets/images/products/shampoo-cacheados-2.jpg",
+      "assets/images/products/shampoo-cacheados-3.jpg"
+    ],
+    "image": "assets/images/products/shampoo-cacheados-1.jpg",
     "featured": true,
-    "rating": 4.7
+    "rating": 4.7,
+    "volume": "300ml",
+    "howToUse": "Aplique uma pequena quantidade de shampoo nos cabelos molhados, massageando suavemente o couro cabeludo e as pontas. Enxágue abundantemente. Para melhores resultados, utilize em conjunto com o Condicionador e o Creme de Pentear da mesma linha.",
+    "ingredients": "Aqua/Water, Sodium C14-16 Olefin Sulfonate, Cocamidopropyl Betaine, Decyl Glucoside, Glycerin, Argania Spinosa Kernel Oil, Butyrospermum Parkii Butter, Algae Extract, Panthenol, Glycol Distearate, Glycol Stearate, Cocamide MEA, Guar Hydroxypropyltrimonium Chloride, Citric Acid, Sodium Chloride, Sodium Benzoate, Potassium Sorbate, Parfum/Fragrance, Citronellol, Geraniol, Hexyl Cinnamal, Linalool.",
+    "benefits": [
+      "Limpeza suave sem ressecar",
+      "Reduz o frizz e o volume excessivo",
+      "Define os cachos",
+      "Nutre e hidrata profundamente",
+      "Livres de sulfatos e parabenos"
+    ]
   },
   {
     "id": 4,
     "name": "Kit Pincéis Profissionais",
     "description": "Kit com 8 pincéis de maquiagem profissionais em pelos naturais e sintéticos. Inclui estojo de couro ecológico.",
+    "longDescription": "O Kit Pincéis Profissionais Absoluta é composto por 8 pincéis essenciais para uma maquiagem impecável. Fabricados com cerdas macias de alta qualidade, misturando pelos naturais e sintéticos para atender a diferentes necessidades de aplicação. Inclui: pincel para base, corretivo, pó, blush, contorno, sombra, esfumador e delineador. O kit vem em um elegante estojo de couro ecológico, perfeito para guardar e transportar seus pincéis com segurança. As hastes são feitas de madeira de reflorestamento e as cerdas são presas com cola hipoalergênica, garantindo durabilidade e resistência.",
     "price": 199.90,
     "category": "acessorios",
-    "image": "assets/images/product-placeholder.png",
+    "images": [
+      "assets/images/products/kit-pinceis-1.jpg",
+      "assets/images/products/kit-pinceis-2.jpg",
+      "assets/images/products/kit-pinceis-3.jpg"
+    ],
+    "image": "assets/images/products/kit-pinceis-1.jpg",
     "featured": true,
-    "rating": 5.0
+    "rating": 5.0,
+    "contents": [
+      "Pincel para Base",
+      "Pincel para Corretivo",
+      "Pincel para Pó",
+      "Pincel para Blush",
+      "Pincel para Contorno",
+      "Pincel para Sombra",
+      "Pincel Esfumador",
+      "Pincel para Delineador",
+      "Estojo de couro ecológico"
+    ],
+    "materials": "Cerdas mistas (naturais e sintéticas), Madeira de reflorestamento, Aço inoxidável, Couro ecológico"
   },
   {
     "id": 5,
     "name": "Água Micelar 3 em 1",
     "description": "Remove maquiagem, limpa e tonifica a pele em um único gesto. Ideal para todos os tipos de pele, incluindo as sensíveis.",
+    "longDescription": "A Água Micelar 3 em 1 Absoluta é uma solução completa para limpeza facial que remove até a maquiagem à prova d'água, limpa profundamente e tonifica a pele em uma única etapa. Sua fórmula inovadora com extratos de camomila e água termal acalma e hidrata a pele, enquanto as micelas capturam e eliminam impurezas sem agredir. Não contém álcool, sabão nem parabenos, sendo ideal até para as peles mais sensíveis e para uso na área dos olhos. Dermatologicamente testado e oftalmologicamente aprovado.",
     "price": 69.90,
     "category": "skincare",
-    "image": "assets/images/product-placeholder.png",
+    "images": [
+      "assets/images/products/agua-micelar-1.jpg",
+      "assets/images/products/agua-micelar-2.jpg",
+      "assets/images/products/agua-micelar-3.jpg"
+    ],
+    "image": "assets/images/products/agua-micelar-1.jpg",
     "featured": false,
-    "rating": 4.6
+    "rating": 4.6,
+    "volume": "400ml",
+    "skinType": "Todos os tipos de pele, inclusive sensíveis",
+    "howToUse": "Umedeça um disco de algodão com o produto e passe suavemente sobre o rosto, olhos e lábios até a completa remoção da maquiagem e impurezas. Não é necessário enxaguar. Pode ser usado pela manhã, à noite ou sempre que necessário.",
+    "ingredients": "Aqua/Water, Hexylene Glycol, Glycerin, Poloxamer 184, Disodium Cocoamphodiacetate, Disodium EDTA, Chamomilla Recutita (Matricaria) Flower Extract, Cucumis Sativus (Cucumber) Fruit Extract, Aloe Barbadensis Leaf Juice, Panthenol, Sodium Chloride, Sodium Hydroxide, Phenoxyethanol, Ethylhexylglycerin, Parfum/Fragrance.",
+    "benefits": [
+      "Remove maquiagem resistente",
+      "Limpa profundamente",
+      "Tonifica e acalma a pele",
+      "Não resseca",
+      "Dermatologicamente testado"
+    ]
   },
   {
     "id": 6,

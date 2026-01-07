@@ -34,13 +34,16 @@ async function loadProducts() {
 
 // Filtra produtos por categoria e termo de busca
 function filterProducts(category = 'all', searchTerm = '') {
+    if (!Array.isArray(allProducts) || allProducts.length === 0) {
+        return [];
+    }
+    
     let filtered = [...allProducts];
     
-    // Filtra por categoria
-    if (category && category !== 'all') {
+    // Filtra por categoria (exceto quando é 'all' ou 'produtos')
+    if (category && category !== 'all' && category !== 'produtos') {
         filtered = filtered.filter(product => 
-            product.category === category || 
-            (categoryMap[product.category] === category)
+            (product.category && (product.category === category || categoryMap[product.category] === category))
         );
     }
     
@@ -59,11 +62,14 @@ function filterProducts(category = 'all', searchTerm = '') {
 // Atualiza a URL sem recarregar a página
 function updateURL(category) {
     let newURL = '#';
-    if (category && category !== 'all') {
+    if (category === 'produtos') {
+        newURL = '#produtos';
+    } else if (category && category !== 'all') {
         newURL = `#${category}`;
     }
     if (currentSearchTerm) {
-        newURL += `?search=${encodeURIComponent(currentSearchTerm)}`;
+        newURL += newURL.includes('?') ? '&' : '?';
+        newURL += `search=${encodeURIComponent(currentSearchTerm)}`;
     }
     window.history.pushState({}, '', newURL);
 }
@@ -84,10 +90,31 @@ function processHash() {
     currentCategory = hash;
     currentSearchTerm = searchTerm;
     
+    // Filtra os produtos
+    const productsToShow = filterProducts(hash, searchTerm);
+    
+    // Renderiza os produtos
+    const productsContainer = document.querySelector('.product-grid');
+    if (productsContainer) {
+        productsContainer.innerHTML = '';
+        if (productsToShow && productsToShow.length > 0) {
+            productsToShow.forEach((product, index) => {
+                const productCard = createProductCard(product, index);
+                if (productCard) {
+                    productsContainer.appendChild(productCard);
+                }
+            });
+        } else {
+            productsContainer.innerHTML = '<p class="no-products">Nenhum produto encontrado.</p>';
+        }
+    }
+    
     // Atualiza a classe ativa no menu
     document.querySelectorAll('.category-card, .menu-link').forEach(item => {
+        const itemHref = item.getAttribute('href');
         const itemCategory = item.dataset.category || 'all';
         const isActive = (hash === 'all' && itemCategory === 'all') || 
+                        (hash === 'produtos' && itemHref === '#produtos') ||
                         (hash === itemCategory || hash === categoryMap[itemCategory]);
         
         item.classList.toggle('active', isActive);
@@ -133,8 +160,9 @@ async function setupFilters() {
         let searchTimeout;
         searchInput.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
+            const searchValue = e.target.value.trim();
             searchTimeout = setTimeout(() => {
-                currentSearchTerm = e.target.value.trim();
+                currentSearchTerm = searchValue;
                 updateURL(currentCategory);
                 processHash();
             }, 300);
